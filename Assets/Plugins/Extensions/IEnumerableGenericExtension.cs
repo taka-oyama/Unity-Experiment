@@ -7,21 +7,17 @@ public static class IEnumerableGenericExtension
 {
 	public static void Each<T>(this IEnumerable<T> source, Action<T> action)
 	{
-		using(var enumerator = source.GetEnumerator()) {
-			while(enumerator.MoveNext()) {
-				action(enumerator.Current);
-			}
+		foreach(T current in source) {
+			action.Invoke(current);
 		}
 	}
 
 	public static void EachWithIndex<T>(this IEnumerable<T> source, Action<T, int> action)
 	{
-		using(var enumerator = source.GetEnumerator()) {
-			int index = 0;
-			while(enumerator.MoveNext()) {
-				action(enumerator.Current, index);
-				index += 1;
-			}
+		int index = 0;
+		foreach(T current in source) {
+			action.Invoke(current, index);
+			index += 1;
 		}
 	}
 
