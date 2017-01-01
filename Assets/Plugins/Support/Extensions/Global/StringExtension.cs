@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 public static class StringExtension
 {
@@ -19,8 +20,23 @@ public static class StringExtension
 	/// <summary>
 	/// Extension method for applying string.Format on an instance.
 	/// </summary>
-	public static string FormatWith(this string value, params object[] args)
+	public static string FormatWith(this string source, params object[] args)
 	{
-		return string.Format(value, args);
+		return string.Format(source, args);
+	}
+
+	/// <summary>
+	/// Repeat the specified string n times.
+	/// </summary>
+	public static string Repeat(this string source, int times)
+	{
+		if(times < 0) {
+			throw new Exception("Repeating number cannot be less than zero.");
+		}
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < times; i++) {
+			sb.Append(source);
+		}
+		return sb.ToString();
 	}
 }
