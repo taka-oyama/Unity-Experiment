@@ -25,7 +25,8 @@ public class FindReferencesInProject : EditorWindow
 		foreach (Object target in allObjects) {
 			placeHolder[0] = target;
 			Object[] depndencyObjects = EditorUtility.CollectDependencies(placeHolder);
-			string[] dependancies = depndencyObjects.Select(d => d.name).Distinct().ToArray();
+			IEnumerable<string> dependancies = depndencyObjects.Select(d => d.name).Distinct();
+
 			foreach(string dependancy in dependancies) {
 				if(string.Compare(dependancy, refName) == 0) {
 					if(AssetDatabase.IsMainAsset(target)) {
