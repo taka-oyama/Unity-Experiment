@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public abstract class GlobalBehaviour<T> : MonoBehaviour where T : MonoBehaviour
+public abstract class GlobalBehaviour<T> : MonoBehaviour where T : GlobalBehaviour<T>
 {
 	public static T I { get; protected set; }
 	public static bool Exists { get { return I != null; } }
@@ -15,16 +15,9 @@ public abstract class GlobalBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 			string message = string.Format("Singleton Instance <{0}> already exists!", typeof(T).Name);
 			throw new Exception(message);
 		}
-		GameObject go = new GameObject();
-		go.name = typeof(T).ToString() + " (Singleton)";
-		I = go.AddComponent<T>();
+		I = this as T;
+		name = string.Concat(name, " (Singleton)");
 		Setup();
-	}
-
-	public T Reset()
-	{
-		gameObject.RemoveComponent<T>();
-		return gameObject.AddComponent<T>();
 	}
 
 	void OnDestroy()
