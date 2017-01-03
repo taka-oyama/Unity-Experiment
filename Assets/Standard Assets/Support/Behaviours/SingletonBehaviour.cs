@@ -2,8 +2,9 @@
 
 public class SingletonBehaviour<T> : GlobalBehaviour<T> where T : SingletonBehaviour<T>
 {
-	public override void Setup()
+	protected override void Awake()
 	{
+		base.Awake();
 		DontDestroyOnLoad(gameObject);
 	}
 }

@@ -7,9 +7,7 @@ public abstract class GlobalBehaviour<T> : MonoBehaviour where T : GlobalBehavio
 	public static bool Exists { get { return I != null; } }
 	public static bool NotExists { get { return !Exists; } }
 
-	public abstract void Setup();
-
-	void Awake()
+	protected virtual void Awake()
 	{
 		if (Exists) {
 			string message = string.Format("Singleton Instance <{0}> already exists!", typeof(T).Name);
@@ -17,10 +15,9 @@ public abstract class GlobalBehaviour<T> : MonoBehaviour where T : GlobalBehavio
 		}
 		I = this as T;
 		name = string.Concat(name, " (Singleton)");
-		Setup();
 	}
 
-	void OnDestroy()
+	protected virtual void OnDestroy()
 	{
 		I = null;
 	}
