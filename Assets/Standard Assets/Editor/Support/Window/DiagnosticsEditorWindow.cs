@@ -20,6 +20,11 @@ public class DiagnosticsEditorWindow : EditorWindow
 		GetWindow<DiagnosticsEditorWindow>("Diagnostics"); 
 	}
 
+	void Awake()
+	{ 
+		Initialize();
+	}
+
 	void Initialize()
 	{
 		// Add your setups here
@@ -31,8 +36,6 @@ public class DiagnosticsEditorWindow : EditorWindow
 		SetupClearContents();
 
 		onInspectorUpdate += DetectRecompile;
-		onRecompile += d => Repaint();
-
 		isInitialized = true;
 	}
 
@@ -45,8 +48,9 @@ public class DiagnosticsEditorWindow : EditorWindow
 	}
 
 	void OnInspectorUpdate()
-	{ 
+	{
 		if(onInspectorUpdate != null) onInspectorUpdate.Invoke();
+		Repaint(); 
 	}
 
 	void OnRecompile(double duration)

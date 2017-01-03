@@ -10,23 +10,23 @@ using UnityEditor;
 /// This script exits play mode whenever script compilation is detected during an editor update.
 /// </summary>
 [InitializeOnLoad]
-class ExitPlayModeOnCompilePreProcessor 
+class ExitPlayModeOnCompile 
 {
-	static ExitPlayModeOnCompilePreProcessor _instance = null;
+	static ExitPlayModeOnCompile _instance = null;
 
 	// Static initialiser called by Unity Editor whenever scripts are loaded (editor or play mode)
-	static ExitPlayModeOnCompilePreProcessor()
+	static ExitPlayModeOnCompile()
 	{
 		Unused(_instance);
-		_instance = new ExitPlayModeOnCompilePreProcessor();
+		_instance = new ExitPlayModeOnCompile();
 	}
 
-	ExitPlayModeOnCompilePreProcessor()
+	ExitPlayModeOnCompile()
 	{
 		EditorApplication.update += OnEditorUpdate;
 	}
 
-	~ExitPlayModeOnCompilePreProcessor()
+	~ExitPlayModeOnCompile()
 	{
 		EditorApplication.update -= OnEditorUpdate;
 		// Silence the unused variable warning with an if.
