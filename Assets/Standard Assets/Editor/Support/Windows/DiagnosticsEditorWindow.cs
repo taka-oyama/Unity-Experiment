@@ -18,13 +18,10 @@ public class DiagnosticsEditorWindow : EditorWindow
 	public static void Window()
 	{
 		GetWindow<DiagnosticsEditorWindow>("Diagnostics"); 
-	} 
+	}
 
 	void Initialize()
 	{
-		onRecompile += d => Repaint();
-		onInspectorUpdate += DetectRecompile;
-
 		// Add your setups here
 		SetupCompilationTime();
 		SetupRunInBackground();
@@ -32,6 +29,9 @@ public class DiagnosticsEditorWindow : EditorWindow
 		SetupTimeScale();
 		SetupOpenFolderInExplorer();
 		SetupClearContents();
+
+		onInspectorUpdate += DetectRecompile;
+		onRecompile += d => Repaint();
 
 		isInitialized = true;
 	}
