@@ -8,7 +8,7 @@ public class EnforceWarnAsError
 	static string mcsPath = Application.dataPath + "/mcs.rsp";
 	static string optionTag = "-warnaserror";
 
-	[MenuItem("Extras/One Timers/Enforce Warn As Error", false, 20)]
+	[MenuItem("Extras/One Timers/Enforce Warn As Error", false, 200)]
 	static void Execute()
 	{ 
 		if(EditorUtility.DisplayDialog(

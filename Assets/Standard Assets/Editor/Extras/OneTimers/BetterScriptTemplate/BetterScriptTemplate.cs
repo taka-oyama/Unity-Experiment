@@ -7,7 +7,7 @@ public class BetterScriptTemplate
 	static string boolKey = "ScriptTemplateReplaced";
 	static string baseTemplatePath = Application.dataPath + "/Standard Assets/Editor/Support/Extras/OneTimers/BetterScriptTemplate";
 
-	[MenuItem("Extras/One Timers/Better C# Template", false, 10)]
+	[MenuItem("Extras/One Timers/Better C# Template", false, 100)]
 	static void Execute()
 	{
 		EditorPrefs.SetBool(boolKey, true);
