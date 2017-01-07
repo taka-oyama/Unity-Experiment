@@ -3,6 +3,26 @@ using System.Linq;
 
 public static class GenericExtension
 {
+	public static bool IsNull<T>(this T source) where T : class
+	{
+		return source == null;
+	}
+
+	public static bool IsNull<T>(this T? source) where T : struct
+	{
+		return !source.HasValue;
+	}
+
+	public static bool IsNotNull<T>(this T source) where T : class
+	{
+		return source != null;
+	}
+
+	public static bool IsNotNull<T>(this T? source) where T : struct
+	{
+		return source.HasValue;
+	}
+
 	public static bool IsIn<T>(this T source, params T[] list)
 	{
 		if(source == null) throw new ArgumentNullException("source");
