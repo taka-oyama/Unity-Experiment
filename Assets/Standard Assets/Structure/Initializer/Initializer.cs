@@ -5,7 +5,7 @@ public abstract class Initializer<T> : SingletonBehaviour<T> where T : Initializ
 {
 	void Start()
 	{
-		AddGlobal<SceneCoordinator>();
+		AddGlobal<SceneNavigator>();
 	}
 
 	public void AddGlobal<U>() where U : GlobalBehaviour<U>
