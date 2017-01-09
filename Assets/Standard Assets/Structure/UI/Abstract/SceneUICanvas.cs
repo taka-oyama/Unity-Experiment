@@ -4,36 +4,35 @@ using System;
 using System.Collections;
 
 [DisallowMultipleComponent]
-public class UICanvas : MonoBehaviour
+public class SceneUICanvas : MonoBehaviour
 {
+	[SerializeField] Canvas sceneCanvas;
 	[SerializeField] UIBucket sceneBucket;
-	
 	UIBucket essentialBucket;
-	Canvas targetCanvas;
+
+	public Canvas Canvas { get { return sceneCanvas; } }
 
 	void Awake()
 	{
-		this.targetCanvas = GetComponent<Canvas>();
 		this.essentialBucket = Resources.Load<UIBucket>("EssentialUIBucket");
-
 		Assert.IsNotNull(essentialBucket, "EssentialUIBucket not found in Resources");
 	}
 	
 	public T Create<T>(bool worldPositionStays = false) where T : UIPanel
 	{
 		T prefab = sceneBucket.Find<T>() ?? essentialBucket.Fetch<T>();
-		return Instantiate(prefab, targetCanvas.transform, worldPositionStays);
+		return Instantiate(prefab, sceneCanvas.transform, worldPositionStays);
 	}
 
 	public bool Has<T>() where T : UIPanel
 	{
-		return targetCanvas.GetComponentInChildren<T>() != null;
+		return sceneCanvas.GetComponentInChildren<T>() != null;
 	}
 
 	public T Find<T>() where T : UIPanel
 	{
-		for(int i = targetCanvas.transform.childCount - 1; i >= 0; i--) {
-			Transform child = targetCanvas.transform.GetChild(i);
+		for(int i = sceneCanvas.transform.childCount - 1; i >= 0; i--) {
+			Transform child = sceneCanvas.transform.GetChild(i);
 			T panel = child.GetComponent<T>();
 			if(panel != null) return panel;
 		}
@@ -56,6 +55,6 @@ public class UICanvas : MonoBehaviour
 
 	public void CloseAll()
 	{
-		targetCanvas.GetComponentsInChildren<UIPanel>().Each(ui => ui.Close());
+		sceneCanvas.GetComponentsInChildren<UIPanel>().Each(ui => ui.Close());
 	}
 }

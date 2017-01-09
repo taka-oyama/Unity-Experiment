@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
 using System.Collections;
 
-public abstract class SceneBase : MonoBehaviour
+public abstract class SceneBase : GlobalBehaviour<SceneBase>
 {
 	public enum State
 	{
@@ -14,8 +15,9 @@ public abstract class SceneBase : MonoBehaviour
 		Exit,			// シーンを抜ける
 	}
 
-	void Awake()
+	protected override void Awake()
 	{
+		base.Awake();
 		GameInitializer.CreateIfNotExist();
 	}
 
@@ -43,7 +45,7 @@ public abstract class SceneBase : MonoBehaviour
 	/// </summary>
 	internal IEnumerator StartExiting()
 	{
-		if((int)CurrentState >= (int)State.BeforeExit) {
+		if((int)currentState >= (int)State.BeforeExit) {
 			Debug.LogWarningFormat("Scene<{0}> has already started exiting.", GetType().Name);
 			yield break;
 		}
@@ -57,16 +59,12 @@ public abstract class SceneBase : MonoBehaviour
 	}
 
 	#region State Management
-	public State CurrentState
-	{
-		get;
-		private set;
-	}
+	[SerializeField][ReadOnly] State currentState;
 
 	void ChangeState(State state)
 	{
-		Log("State: {0} -> {1}", CurrentState.ToString(), state.ToString());
-		this.CurrentState = state;
+		Log("State: {0} -> {1}", currentState.ToString(), state.ToString());
+		this.currentState = state;
 	}
 
 	protected virtual IEnumerator Init()
@@ -121,11 +119,11 @@ public abstract class SceneBase : MonoBehaviour
 	#endregion
 
 	#region UI
-	[SerializeField] UICanvas m_UI;
+	[SerializeField] SceneUICanvas sceneUI;
 
-	public UICanvas UI
+	public SceneUICanvas UI
 	{
-		get { return m_UI; }
+		get { return sceneUI; }
 	}
 	#endregion
 

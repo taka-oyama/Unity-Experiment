@@ -10,11 +10,11 @@ public abstract class GlobalBehaviour<T> : MonoBehaviour where T : GlobalBehavio
 	protected virtual void Awake()
 	{
 		if (Exists) {
-			string message = string.Format("Singleton Instance <{0}> already exists!", typeof(T).Name);
+			string message = string.Format("Singleton Instance <{0}> already exists!", GetType().Name);
 			throw new Exception(message);
 		}
 		I = this as T;
-		this.name = string.Concat(typeof(T).Name, " (Global)");
+		this.name = string.Concat(GetType().Name, " (Global)");
 	}
 
 	protected virtual void OnDestroy()
