@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class UIBucketCreator : MonoBehaviour
 {
@@ -12,10 +13,11 @@ public class UIBucketCreator : MonoBehaviour
 
 	public static void CreateAsset<T> () where T : ScriptableObject
 	{
+		string sceneName = SceneManager.GetActiveScene().name;
 		string path = AssetDatabase.GetAssetPath(Selection.activeObject);
 		path = string.IsNullOrEmpty(path) ? "Assets" : path;
 		path = File.Exists(path) ? Path.GetDirectoryName(path) : path;
-		path = AssetDatabase.GenerateUniqueAssetPath(string.Format("{0}/New{1}.asset", path, typeof(T).ToString()));
+		path = AssetDatabase.GenerateUniqueAssetPath(string.Format("{0}/{1}{2}.asset", path, sceneName, typeof(T).ToString()));
 
 		T asset = ScriptableObject.CreateInstance<T>();
 		AssetDatabase.CreateAsset(asset, path);

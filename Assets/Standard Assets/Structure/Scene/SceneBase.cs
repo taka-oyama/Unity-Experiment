@@ -1,15 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.SceneManagement;
-using System;
 
 public abstract class SceneBase : MonoBehaviour
 {
 	public enum State
 	{
-		Enter,			// シーンに入った時の処理
-		LoadAssets,		// アセットバンドルのロードはここで
-		LoadData,		// データのダウンロードはここで
+		Pending,        // 開始待ち
+		Init,			// シーンに入った時の処理
+		Load,		    // アセットバンドルのロードはここで
 		Prepare,		// ロード後のセットアップはここで
 		Run,			// ゲーム実行
 		BeforeExit,		// シーンを抜ける前処理
@@ -18,19 +16,18 @@ public abstract class SceneBase : MonoBehaviour
 
 	void Awake()
 	{
-		ChangeState(State.Enter);
+		GameInitializer.CreateIfNotExist();
 	}
 
 	IEnumerator Start()
 	{
 		ChangeFrameRate(defaultFrameRate);
-		yield return StartCoroutine(Enter());
 
-		ChangeState(State.LoadAssets);
-		yield return StartCoroutine(LoadAssets());
+		ChangeState(State.Init);
+		yield return StartCoroutine(Init());
 
-		ChangeState(State.LoadData);
-		yield return StartCoroutine(LoadData());
+		ChangeState(State.Load);
+		yield return StartCoroutine(Load());
 
 		ChangeState(State.Prepare);
 		yield return StartCoroutine(Prepare());
@@ -68,21 +65,16 @@ public abstract class SceneBase : MonoBehaviour
 
 	void ChangeState(State state)
 	{
+		Log("State: {0} -> {1}", CurrentState.ToString(), state.ToString());
 		this.CurrentState = state;
-		Log(string.Concat("State Changed to ", state.ToString()));
 	}
 
-	protected virtual IEnumerator Enter()
+	protected virtual IEnumerator Init()
 	{
 		yield break;
 	}
 
-	protected virtual IEnumerator LoadAssets()
-	{
-		yield break;
-	}
-
-	protected virtual IEnumerator LoadData()
+	protected virtual IEnumerator Load()
 	{
 		yield break;
 	}
@@ -128,10 +120,19 @@ public abstract class SceneBase : MonoBehaviour
 	}
 	#endregion
 
+	#region UI
+	[SerializeField] UICanvas m_UI;
+
+	public UICanvas UI
+	{
+		get { return m_UI; }
+	}
+	#endregion
+
 	#region Logger
 	protected void Log(string message, params object[] args)
 	{
-		Debug.LogFormat(string.Concat(string.Format("[{0}]", GetType().Name), message), args);
+		Debug.LogFormat(string.Concat(string.Format("[{0}] ", GetType().Name), message), args);
 	}
 	#endregion
 }

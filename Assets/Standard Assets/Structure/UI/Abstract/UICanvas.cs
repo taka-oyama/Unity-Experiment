@@ -1,26 +1,39 @@
 ﻿using UnityEngine;
+using UnityEngine.Assertions;
 using System;
+using System.Collections;
 
-[RequireComponent(typeof(Canvas))]
 [DisallowMultipleComponent]
-public abstract class UICanvas : GlobalBehaviour<UICanvas>
+public class UICanvas : MonoBehaviour
 {
-	[SerializeField] UIBucket bucket;
+	[SerializeField] UIBucket sceneBucket;
+	
+	UIBucket essentialBucket;
+	Canvas targetCanvas;
 
+	void Awake()
+	{
+		this.targetCanvas = GetComponent<Canvas>();
+		this.essentialBucket = Resources.Load<UIBucket>("EssentialUIBucket");
+
+		Assert.IsNotNull(essentialBucket, "EssentialUIBucket not found in Resources");
+	}
+	
 	public T Create<T>(bool worldPositionStays = false) where T : UIPanel
 	{
-		return Instantiate(bucket.Fetch<T>(), transform, worldPositionStays);
+		T prefab = sceneBucket.Find<T>() ?? essentialBucket.Fetch<T>();
+		return Instantiate(prefab, targetCanvas.transform, worldPositionStays);
 	}
 
 	public bool Has<T>() where T : UIPanel
 	{
-		return GetComponentInChildren<T>() != null;
+		return targetCanvas.GetComponentInChildren<T>() != null;
 	}
 
 	public T Find<T>() where T : UIPanel
 	{
-		for(int i = transform.childCount - 1; i >= 0; i--) {
-			Transform child = transform.GetChild(i);
+		for(int i = targetCanvas.transform.childCount - 1; i >= 0; i--) {
+			Transform child = targetCanvas.transform.GetChild(i);
 			T panel = child.GetComponent<T>();
 			if(panel != null) return panel;
 		}
@@ -43,6 +56,6 @@ public abstract class UICanvas : GlobalBehaviour<UICanvas>
 
 	public void CloseAll()
 	{
-		GetComponentsInChildren<UIPanel>().Each(ui => ui.Close());
+		targetCanvas.GetComponentsInChildren<UIPanel>().Each(ui => ui.Close());
 	}
 }

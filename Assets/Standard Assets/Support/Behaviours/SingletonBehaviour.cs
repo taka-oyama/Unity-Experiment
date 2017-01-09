@@ -6,5 +6,6 @@ public class SingletonBehaviour<T> : GlobalBehaviour<T> where T : SingletonBehav
 	{
 		base.Awake();
 		DontDestroyOnLoad(gameObject);
+		this.name = string.Concat(typeof(T).Name, " (Singleton)");
 	}
 }

@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public sealed class SceneNavigator : GlobalBehaviour<SceneNavigator>
+public sealed class SceneNavigator : SingletonBehaviour<SceneNavigator>
 {
 	public SceneBase Active { get; private set; }
 	public object[] TransitionParams { get; private set; }
@@ -13,6 +13,7 @@ public sealed class SceneNavigator : GlobalBehaviour<SceneNavigator>
 	void Start()
 	{
 		SceneManager.activeSceneChanged += OnSceneChanged;
+		this.Active = GameObject.FindObjectOfType<SceneBase>();
 	}
 
 	void OnSceneChanged(Scene previous, Scene current)

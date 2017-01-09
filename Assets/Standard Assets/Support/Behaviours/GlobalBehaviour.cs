@@ -14,7 +14,7 @@ public abstract class GlobalBehaviour<T> : MonoBehaviour where T : GlobalBehavio
 			throw new Exception(message);
 		}
 		I = this as T;
-		name = string.Concat(name, " (Singleton)");
+		this.name = string.Concat(typeof(T).Name, " (Global)");
 	}
 
 	protected virtual void OnDestroy()
