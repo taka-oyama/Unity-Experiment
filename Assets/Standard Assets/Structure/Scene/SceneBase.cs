@@ -40,8 +40,17 @@ public abstract class SceneBase : MonoBehaviour
 		Run();
 	}
 
+	/// <summary>
+	/// Starts the exiting process.
+	/// Should only be called from Scene Navigator.
+	/// </summary>
 	internal IEnumerator StartExiting()
 	{
+		if((int)CurrentState >= (int)State.BeforeExit) {
+			Debug.LogWarningFormat("Scene<{0}> has already started exiting.", GetType().Name);
+			yield break;
+		}
+		
 		ChangeState(State.BeforeExit);
 		ChangeFrameRate(defaultFrameRate);
 		yield return StartCoroutine(BeforeExit());
@@ -100,14 +109,22 @@ public abstract class SceneBase : MonoBehaviour
 	const int defaultFrameRate = 30;
 	int runningFrameRate = 30;
 
-	void SetRunningFrameRate(int newFrameRate)
+	/// <summary>
+	/// Setting the framerate here will allow the code to set the framerate
+	/// only during the Run state and resort to default framerate during 
+	/// scene transitions.
+	/// </summary>
+	protected void SetRunningFrameRate(int newFrameRate)
 	{
 		this.runningFrameRate = newFrameRate;
 	}
 
 	void ChangeFrameRate(int newFrameRate)
 	{
-		Application.targetFrameRate = newFrameRate;
+		if(newFrameRate != Application.targetFrameRate) {
+			Log("Changing Frame Rate to {0}", newFrameRate);
+			Application.targetFrameRate = newFrameRate;
+		}
 	}
 	#endregion
 

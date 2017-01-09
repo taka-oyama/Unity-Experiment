@@ -7,6 +7,8 @@ public sealed class SceneNavigator : GlobalBehaviour<SceneNavigator>
 	public SceneBase Active { get; private set; }
 	public object[] TransitionParams { get; private set; }
 	Scene previousScene;
+	Coroutine transition;
+	string nextSceneName;
 
 	void Start()
 	{
@@ -31,7 +33,13 @@ public sealed class SceneNavigator : GlobalBehaviour<SceneNavigator>
 
 	public void MoveTo(string sceneName, params object[] args)
 	{
-		StartCoroutine(MoveToCoroutine(sceneName, args));
+		if(transition != null) {
+			Debug.LogWarningFormat("Canceling transition to <{0}> and starting new transition to <{1}>", nextSceneName, sceneName);
+			this.nextSceneName = null;
+			StopCoroutine(transition);
+		}
+		this.nextSceneName = sceneName;
+		this.transition = StartCoroutine(MoveToCoroutine(sceneName, args));
 	}
 
 	IEnumerator MoveToCoroutine(string sceneName, params object[] args)
@@ -42,6 +50,8 @@ public sealed class SceneNavigator : GlobalBehaviour<SceneNavigator>
 		yield return new WaitUntil(() => sceneLoader.progress >= 0.9f);
 		sceneLoader.allowSceneActivation = true;
 		this.TransitionParams = args;
+		this.nextSceneName = null;
+		this.transition = null;
 	}
 
 	protected override void OnDestroy()
