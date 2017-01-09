@@ -12,11 +12,14 @@ public abstract class UIPanel : MonoBehaviour
 {
 	CanvasGroup canvasGroup;
 	Animator animator;
+	bool isClosing;
+
 	[HideInInspector] public UnityEvent onOpened;
 	[HideInInspector] public UnityEvent onClosed;
 
 	protected virtual void Awake()
 	{
+		isClosing = false;
 		animator = GetComponent<Animator>();
 		canvasGroup = GetComponent<CanvasGroup>();
 	}
@@ -36,6 +39,11 @@ public abstract class UIPanel : MonoBehaviour
 
 	public virtual void Close()
 	{
+		if(isClosing) {
+			Debug.LogWarningFormat("You tried to close {0} more than once!", GetType().Name);
+			return;
+		}
+		isClosing = true;
 		canvasGroup.interactable = false;
 		animator.SetTrigger("Close");
 		StartCoroutine(CloseCoroutine());
