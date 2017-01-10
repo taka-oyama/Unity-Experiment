@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class ErrorCatcher : SingletonBehaviour<ErrorCatcher>
 {
@@ -56,12 +57,14 @@ public class ErrorCatcher : SingletonBehaviour<ErrorCatcher>
 
 	public struct Info
 	{
+		public string sceneName;
 		public string condition;
 		public string trace;
 		public LogType type;
 
 		public Info(string condition, string trace, LogType type)
 		{
+			this.sceneName = SceneManager.GetActiveScene().name;
 			this.condition = condition;
 			this.trace = trace;
 			this.type = type;

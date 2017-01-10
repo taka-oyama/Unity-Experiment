@@ -2,7 +2,7 @@
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public sealed class SceneNavigator : SingletonBehaviour<SceneNavigator>
+public sealed class SceneCoordinator : SingletonBehaviour<SceneCoordinator>
 {
 	public SceneBase Active { get; private set; }
 	public object[] TransitionParams { get; private set; }
