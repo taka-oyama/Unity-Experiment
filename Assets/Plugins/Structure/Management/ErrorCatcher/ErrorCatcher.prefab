@@ -88,6 +88,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiCanvas: {fileID: 223135519899841574}
   uiPrefab: {fileID: 114305716974034720, guid: 076393c2437ce48a186284e562a3aead, type: 2}
+  onClear:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114777905015916094
 MonoBehaviour:
   m_ObjectHideFlags: 1

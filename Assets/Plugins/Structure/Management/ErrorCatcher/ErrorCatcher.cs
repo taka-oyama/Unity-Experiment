@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using System;
 
 public class ErrorCatcher : SingletonBehaviour<ErrorCatcher>
 {
@@ -33,17 +34,23 @@ public class ErrorCatcher : SingletonBehaviour<ErrorCatcher>
 	void Update()
 	{
 		if(stash.HasValue) {
-			Instantiate(uiPrefab, uiCanvas.transform).Init(stash.Value, Clear);
-			onCatch.Invoke(stash.Value);
+			Instantiate(uiPrefab, uiCanvas.transform, false).Init(stash.Value, Clear);
+			if(onCatch != null) {
+				onCatch.Invoke(stash.Value);
+			}
 			this.stash = null;
 		}
 	}
 
 	public void Clear()
 	{
-		this.onClear.Invoke();
-		this.onCatch.RemoveAllListeners();
-		this.onClear.RemoveAllListeners();
+		if(onClear != null) {
+			this.onClear.Invoke();
+		}
+		if(onCatch != null) {
+			this.onClear.RemoveAllListeners();
+			this.onCatch.RemoveAllListeners();
+		}
 		this.DidCatch = false;
 		this.stash = null;
 	}
@@ -61,6 +68,7 @@ public class ErrorCatcher : SingletonBehaviour<ErrorCatcher>
 		public string condition;
 		public string trace;
 		public LogType type;
+		public DateTime time;
 
 		public Info(string condition, string trace, LogType type)
 		{
@@ -68,6 +76,7 @@ public class ErrorCatcher : SingletonBehaviour<ErrorCatcher>
 			this.condition = condition;
 			this.trace = trace;
 			this.type = type;
+			this.time = DateTime.Now;
 		}
 	}
 }

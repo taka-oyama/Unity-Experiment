@@ -119,9 +119,9 @@ public abstract class SceneBase : GlobalBehaviour<SceneBase>
 	#endregion
 
 	#region UI
-	[SerializeField] SceneUICanvas sceneUI;
+	[SerializeField] UICanvas sceneUI;
 
-	public SceneUICanvas UI
+	public UICanvas UI
 	{
 		get { return sceneUI; }
 	}

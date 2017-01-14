@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Name: EssentialUIBucket
   m_EditorClassIdentifier: 
   uis:
-  - {fileID: 0}
+  - {fileID: 114258669223993566, guid: 1670461321e634d7d9d4db4e18c13dd8, type: 2}
+  - {fileID: 114498230250936164, guid: cc132b07a5ce444f4b92e1958e052bef, type: 2}
