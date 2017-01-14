@@ -11,6 +11,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb8df3fa2798d41789b11f2ee1f2c14d, type: 3}
   m_Name: EssentialUIBucket
   m_EditorClassIdentifier: 
-  uis:
+  uiPrefabs:
   - {fileID: 114258669223993566, guid: 1670461321e634d7d9d4db4e18c13dd8, type: 2}
   - {fileID: 114498230250936164, guid: cc132b07a5ce444f4b92e1958e052bef, type: 2}

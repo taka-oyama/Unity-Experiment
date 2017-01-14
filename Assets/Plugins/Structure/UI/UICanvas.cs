@@ -21,7 +21,6 @@ public class UICanvas : MonoBehaviour
 
 	public T Create<T>(bool worldPositionStays = false) where T : UIPanel
 	{
-		Debug.LogError("test");
 		T prefab = uiPrefabs.FirstOrDefault(u => u.GetType() == typeof(T)) as T;
 		prefab = prefab ?? essentialBucket.Fetch<T>();
 		return Instantiate(prefab, canvas.transform, worldPositionStays);
@@ -63,21 +62,6 @@ public class UICanvas : MonoBehaviour
 
 	void OnValidate()
 	{
-		var hashSet = new HashSet<UIPanel>();
-		for(int i = 0; i < uiPrefabs.Length; i++) {
-			if(uiPrefabs[i] == null) {
-				continue;
-			}
-			if(hashSet.Contains(uiPrefabs[i])) {
-				Debug.LogErrorFormat("{0} already exists in {1}!", uiPrefabs[i].name, name);
-				uiPrefabs[i] = null;
-				continue;
-			}
-			hashSet.Add(uiPrefabs[i]);
-		}
-
-		int currentCount = uiPrefabs.Length;
-		uiPrefabs = uiPrefabs.Where(o => o != null).OrderBy(o => o.name).ToArray();
-		Array.Resize(ref uiPrefabs, currentCount);
+		this.uiPrefabs = ArrayValidator.RemoveDuplicateAndSort(uiPrefabs);
 	}
 }

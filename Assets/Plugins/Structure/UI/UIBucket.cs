@@ -6,7 +6,7 @@ using System.Collections.Generic;
 [ExecuteInEditMode]
 public class UIBucket : ScriptableObject
 {
-	[SerializeField] UIPanel[] uis;
+	[SerializeField] UIPanel[] uiPrefabs;
 
 	/// <summary>
 	/// Find UI with the same name as the class.
@@ -14,7 +14,7 @@ public class UIBucket : ScriptableObject
 	/// </summary>
 	public T Find<T>() where T : UIPanel
 	{
-		foreach(var ui in uis) {
+		foreach(var ui in uiPrefabs) {
 			if(ui is T) {
 				return ui as T;
 			}
@@ -41,21 +41,6 @@ public class UIBucket : ScriptableObject
 	/// </summary>
 	void OnValidate()
 	{
-		var hashSet = new HashSet<UIPanel>();
-		for(int i = 0; i < uis.Length; i++) {
-			if(uis[i] == null) {
-				continue;
-			}
-			if(hashSet.Contains(uis[i])) {
-				Debug.LogErrorFormat("{0} already exists in {1}!", uis[i].name, name);
-				uis[i] = null;
-				continue;
-			}
-			hashSet.Add(uis[i]);
-		}
-
-		int currentCount = uis.Length;
-		uis = uis.Where(o => o != null).OrderBy(o => o.name).ToArray();
-		Array.Resize(ref uis, currentCount);
+		this.uiPrefabs = ArrayValidator.RemoveDuplicateAndSort(uiPrefabs);
 	}
 }
