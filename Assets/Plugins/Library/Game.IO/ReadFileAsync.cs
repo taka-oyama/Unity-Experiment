@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Game.IO
 {
-	public class ReadFileAsync : CustomYieldInstruction, IDisposable
+	public sealed class ReadFileAsync : CustomYieldInstruction, IDisposable
 	{
 		static object locker = new object();
 

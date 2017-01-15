@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Game.IO
 {
-	public class WriteFileAsync : CustomYieldInstruction
+	public sealed class WriteFileAsync : CustomYieldInstruction
 	{
 		static object locker = new object();
 		string destinationPath;

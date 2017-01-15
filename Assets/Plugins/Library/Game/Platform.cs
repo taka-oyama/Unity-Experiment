@@ -2,7 +2,7 @@
 
 namespace Game
 {
-	public class Platform
+	public sealed class Platform
 	{
 		public static bool isDebug
 		{
