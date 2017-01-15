@@ -4,14 +4,12 @@ using System.IO;
 
 public class BetterScriptTemplate
 {
-	static string boolKey = "ScriptTemplateReplaced";
-	static string baseTemplatePath = Application.dataPath + "/Standard Assets/Editor/Support/Extras/OneTimers/BetterScriptTemplate";
+	static string myTemplatePath = Application.dataPath + "/Plugins/Editor/Extras/OneTimers/BetterScriptTemplate";
+	static string appTemplatePath = string.Join("/", new [] { EditorApplication.applicationPath, "Contents", "Resources", "ScriptTemplates" });
 
 	[MenuItem("Extras/One Timers/Better C# Template", false, 100)]
 	static void Execute()
 	{
-		EditorPrefs.SetBool(boolKey, true);
-
 		if(EditorUtility.DisplayDialog(
 			   "Simplify C# Template",
 			   "This will replace C# template with a simpler one and delete the Javascript template.\n\nThis requires you to restart Unity.\n",
@@ -24,21 +22,14 @@ public class BetterScriptTemplate
 	[MenuItem("Extras/One Timers/Better C# Template", true)]
 	static bool Check()
 	{
-		return !EditorPrefs.GetBool(boolKey, false);
-	}
-
-	//[MenuItem("Extras/One Timers/Clear EditorPrefs", false, 0)]
-	static void ClearEditorPrefs()
-	{
-		EditorPrefs.DeleteKey(boolKey);
+		return !File.Exists(appTemplatePath + "/81-C# Script-NewBehaviourScript.cs.txt.bak");
 	}
 
 	static void MoveFiles()
 	{
-		string templatePath = string.Join("/", new [] { EditorApplication.applicationPath, "Contents", "Resources", "ScriptTemplates" });
-		string csTemplatePath = templatePath + "/81-C# Script-NewBehaviourScript.cs.txt";
-		string jsTemplatePath = templatePath + "/82-Javascript-NewBehaviourScript.js.txt";
-		string newCsTemplatePath = baseTemplatePath + "/81-C# Script-NewBehaviourScript.cs.txt";
+		string csTemplatePath = appTemplatePath + "/81-C# Script-NewBehaviourScript.cs.txt";
+		string jsTemplatePath = appTemplatePath + "/82-Javascript-NewBehaviourScript.js.txt";
+		string newCsTemplatePath = myTemplatePath + "/81-C# Script-NewBehaviourScript.cs.txt";
 
 		if(!File.Exists(csTemplatePath + ".bak")) {
 			File.Move(csTemplatePath, csTemplatePath + ".bak");
