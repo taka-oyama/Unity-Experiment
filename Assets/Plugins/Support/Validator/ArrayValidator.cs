@@ -6,6 +6,10 @@ using System.Linq;
 
 internal sealed class ArrayValidator
 {
+	/// <summary>
+	/// Validate added ui and remove duplicates.
+	/// This will also sort it in alphabetical order.
+	/// </summary>
 	internal static T[] RemoveDuplicateAndSort<T>(T[] source) where T : MonoBehaviour
 	{
 		var hashSet = new HashSet<T>();

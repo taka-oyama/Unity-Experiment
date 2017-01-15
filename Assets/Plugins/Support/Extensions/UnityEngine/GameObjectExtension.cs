@@ -2,13 +2,13 @@
 {
 	public static class GameObjectExtension
 	{
-		public static GameObject Append(this GameObject parent, GameObject child, bool worldPositionStays = true)
+		public static MonoBehaviour Append(this MonoBehaviour parent, MonoBehaviour child, bool worldPositionStays = true)
 		{
 			child.transform.SetParent(parent.transform, worldPositionStays);
 			return child;
 		}
 
-		public static T FetchComponent<T>(this GameObject go) where T : MonoBehaviour
+		public static T FetchComponent<T>(this MonoBehaviour go) where T : MonoBehaviour
 		{
 			T behaviour = go.GetComponent<T>();
 			if(behaviour == null) {
@@ -18,17 +18,17 @@
 			return behaviour;
 		}
 
-		public static bool HasComponent<T>(this GameObject go) where T : MonoBehaviour
+		public static bool HasComponent<T>(this MonoBehaviour go) where T : MonoBehaviour
 		{
 			return go.GetComponent<T>() != null;
 		}
 
-		public static void RemoveComponent<T>(this GameObject go) where T : MonoBehaviour
+		public static void RemoveComponent<T>(this MonoBehaviour go) where T : MonoBehaviour
 		{
 			GameObject.Destroy(go.GetComponent<T>());
 		}
 
-		public static void RemoveComponentImmediate<T>(this GameObject go) where T : MonoBehaviour
+		public static void RemoveComponentImmediate<T>(this MonoBehaviour go) where T : MonoBehaviour
 		{
 			GameObject.DestroyImmediate(go.GetComponent<T>());
 		}
