@@ -222,8 +222,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 952f03259f1db4aefb1afd7a4a8f7671, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 0
   sceneUI: {fileID: 960719942}
+  enableLogging: 1
 --- !u!114 &960719942
 MonoBehaviour:
   m_ObjectHideFlags: 0
