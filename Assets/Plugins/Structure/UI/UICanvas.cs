@@ -5,7 +5,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 [DisallowMultipleComponent]
-public class UICanvas : MonoBehaviour
+public sealed class UICanvas : MonoBehaviour
 {
 	[SerializeField] Canvas canvas;
 	[SerializeField] UIPanel[] uiPrefabs;

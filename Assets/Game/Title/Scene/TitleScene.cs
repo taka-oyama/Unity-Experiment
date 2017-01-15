@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 
-public class TitleScene : SceneBase
+public sealed class TitleScene : SceneBase
 {
 	protected override void Run()
 	{
-		
 	}
 }

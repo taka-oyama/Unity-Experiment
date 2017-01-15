@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-internal class ArrayValidator
+internal sealed class ArrayValidator
 {
 	internal static T[] RemoveDuplicateAndSort<T>(T[] source) where T : MonoBehaviour
 	{

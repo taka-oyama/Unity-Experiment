@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 [ExecuteInEditMode]
-public class UIBucket : ScriptableObject
+public sealed class UIBucket : ScriptableObject
 {
 	[SerializeField] UIPanel[] uiPrefabs;
 

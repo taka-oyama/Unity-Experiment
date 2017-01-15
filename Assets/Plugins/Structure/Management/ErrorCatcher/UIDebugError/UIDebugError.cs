@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-public class UIDebugError : UIPanel
+public sealed class UIDebugError : UIPanel
 {
 	[SerializeField] Text title;
 	[SerializeField] Text sysInfo;

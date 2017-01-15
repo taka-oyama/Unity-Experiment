@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ReadOnlyAttribute : PropertyAttribute
+public sealed class ReadOnlyAttribute : PropertyAttribute
 {
 
 }
