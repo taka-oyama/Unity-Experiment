@@ -9,7 +9,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eb8df3fa2798d41789b11f2ee1f2c14d, type: 3}
-  m_Name: EssentialUIBucket
+  m_Name: CommonUIBucket
   m_EditorClassIdentifier: 
   uiPrefabs:
   - {fileID: 114258669223993566, guid: 1670461321e634d7d9d4db4e18c13dd8, type: 2}
