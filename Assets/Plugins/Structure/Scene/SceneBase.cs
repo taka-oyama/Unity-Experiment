@@ -128,9 +128,13 @@ public abstract class SceneBase : GlobalBehaviour<SceneBase>
 	#endregion
 
 	#region Logger
+	[SerializeField] bool enableLogging = true;
+
 	protected void Log(string message, params object[] args)
 	{
-		Debug.LogFormat(string.Concat(string.Format("[{0}] ", GetType().Name), message), args);
+		if(enableLogging) {
+			Debug.LogFormat(string.Concat(string.Format("[{0}] ", GetType().Name), message), args);
+		}
 	}
 	#endregion
 }
