@@ -74,6 +74,9 @@ public sealed class UICanvas : MonoBehaviour
 		canvas.GetComponentsInChildren<UIPanel>().Each(ui => ui.Close());
 	}
 
+	/// <summary>
+	/// Lookup T in the uiPrefab list. Will throw exception if T is not found.
+	/// </summary>
 	T LookupPrefab<T>() where T : UIPanel
 	{
 		T prefab = null;
