@@ -19,11 +19,18 @@ public sealed class UICanvas : MonoBehaviour
 		this.uiPrefabs = uiPrefabs.Concat(essentialBucket.Prefabs).ToArray();
 	}
 
+	/// <summary>
+	/// Instantiate a GameObject with component T.
+	/// T has to be registered in the uiPrefabs list.
+	/// </summary>
 	public T Create<T>(bool worldPositionStays = false) where T : UIPanel
 	{
-		return Instantiate(Lookup<T>(), canvas.transform, worldPositionStays);
+		return Instantiate(LookupPrefab<T>(), canvas.transform, worldPositionStays);
 	}
 
+	/// <summary>
+	/// Check if canvas has T.
+	/// </summary>
 	public bool Has<T>() where T : UIPanel
 	{
 		return canvas.GetComponentInChildren<T>() != null;
@@ -44,41 +51,42 @@ public sealed class UICanvas : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Find UI with the same name as the class.
-	/// Will throw and Exception if it's not found.
+	/// Close the top UI on canvas.
 	/// </summary>
-	public T Fetch<T>() where T : UIPanel
-	{
-		T panel = Find<T>();
-		if(panel == null) {
-			throw new Exception(typeof(T).Name + " is not found in " + name);
-		}
-		return panel;
-	}
-
 	public void Pop()
 	{
-		Fetch<UIPanel>().Close();
+		Find<UIPanel>().Close();
 	}
 
+	/// <summary>
+	/// returns the number of UIPanels in canvas.
+	/// </summary>
+	public int Count()
+	{
+		return canvas.GetComponentsInChildren<UIPanel>().Length;
+	}
+
+	/// <summary>
+	/// Closes all UIPanels in canvas.
+	/// </summary>
 	public void CloseAll()
 	{
 		canvas.GetComponentsInChildren<UIPanel>().Each(ui => ui.Close());
 	}
 
-	T Lookup<T>() where T : UIPanel
+	T LookupPrefab<T>() where T : UIPanel
 	{
-		T target = null;
+		T prefab = null;
 		foreach(var ui in uiPrefabs) {
 			if(ui is T) {
-				target = ui as T;
+				prefab = ui as T;
 				break;
 			}
 		}
-		if(target == null) {
-			throw new Exception(typeof(T).Name + " is not found in " + name);
+		if(prefab == null) {
+			throw new Exception(string.Format("{0} is not found in {1}'s uiPrefab list.", typeof(T).Name, name));
 		}
-		return target;
+		return prefab;
 	}
 
 	/// <summary>
