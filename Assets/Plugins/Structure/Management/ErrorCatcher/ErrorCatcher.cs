@@ -3,20 +3,19 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System;
 
-public class ErrorCatcher : SingletonBehaviour<ErrorCatcher>
+public sealed class ErrorCatcher : SingletonBehaviour<ErrorCatcher>
 {
-	public bool DidCatch { get; private set; }
 	Info? stash;
 
-	[SerializeField] Canvas uiCanvas;
-	[SerializeField] UIDebugError uiPrefab;
+	[SerializeField] Canvas canvas;
+	[SerializeField] UIDebugError uiDebugPrefab;
 	[HideInInspector] public UnityEvent<Info> onCatch;
 	[HideInInspector] public UnityEvent onClear;
 
 	protected override void Awake()
 	{
 		base.Awake();
-		this.DidCatch = false;
+		canvas.gameObject.SetActive(false);
 		Application.logMessageReceived += LogHandleCallback;
 		Application.logMessageReceivedThreaded += LogHandleCallback;
 	}
@@ -24,8 +23,7 @@ public class ErrorCatcher : SingletonBehaviour<ErrorCatcher>
 	void LogHandleCallback(string condition, string trace, LogType type)
 	{
 		if(type == LogType.Assert || type == LogType.Error || type == LogType.Exception) {
-			if(!DidCatch) {
-				DidCatch = true;
+			if(!canvas.isActiveAndEnabled) {
 				stash = new Info(condition, trace, type);
 			}
 		}
@@ -34,7 +32,8 @@ public class ErrorCatcher : SingletonBehaviour<ErrorCatcher>
 	void Update()
 	{
 		if(stash.HasValue) {
-			Instantiate(uiPrefab, uiCanvas.transform, false).Init(stash.Value, Clear);
+			canvas.gameObject.SetActive(true);
+			Instantiate(uiDebugPrefab, canvas.transform, false).Init(stash.Value, Clear);
 			if(onCatch != null) {
 				onCatch.Invoke(stash.Value);
 			}
@@ -44,6 +43,7 @@ public class ErrorCatcher : SingletonBehaviour<ErrorCatcher>
 
 	public void Clear()
 	{
+		canvas.gameObject.SetActive(false);
 		if(onClear != null) {
 			this.onClear.Invoke();
 		}
@@ -51,7 +51,6 @@ public class ErrorCatcher : SingletonBehaviour<ErrorCatcher>
 			this.onClear.RemoveAllListeners();
 			this.onCatch.RemoveAllListeners();
 		}
-		this.DidCatch = false;
 		this.stash = null;
 	}
 

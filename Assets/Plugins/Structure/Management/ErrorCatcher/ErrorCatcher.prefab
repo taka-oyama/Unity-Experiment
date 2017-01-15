@@ -86,7 +86,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34cf5a674a22245b98ff2b87159606ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiCanvas: {fileID: 223135519899841574}
+  canvas: {fileID: 223135519899841574}
   uiPrefab: {fileID: 114305716974034720, guid: 076393c2437ce48a186284e562a3aead, type: 2}
   onClear:
     m_PersistentCalls:
