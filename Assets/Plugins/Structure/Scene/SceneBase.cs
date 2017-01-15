@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.Events;
 using System.Collections;
 
 public abstract class SceneBase : GlobalBehaviour<SceneBase>
@@ -59,12 +60,15 @@ public abstract class SceneBase : GlobalBehaviour<SceneBase>
 	}
 
 	#region State Management
-	[SerializeField][ReadOnly] State currentState;
+	public class StateChangeEvent : UnityEvent<State> {}
+	[HideInInspector] public StateChangeEvent onStateChanged = new StateChangeEvent();
+	State currentState;
 
 	void ChangeState(State state)
 	{
 		Log("State: {0} -> {1}", currentState.ToString(), state.ToString());
 		this.currentState = state;
+		this.onStateChanged.Invoke(state);
 	}
 
 	protected virtual IEnumerator Init()
