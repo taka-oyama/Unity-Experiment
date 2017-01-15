@@ -13,6 +13,13 @@ namespace System.Linq
 				yield return buffer[j];
 				buffer[j] = buffer[i];
 			}
-		}	
+		}
+
+		public static IEnumerable<T> Paginate<T>(this IEnumerable<T> source, int page, int size)
+		{
+			if(page < 1) throw new ArgumentException("Invalid Paginate page. Expected: > 0. Given: " + page.ToString());
+			if(size < 1) throw new ArgumentException("Invalid Paginate size. Expected: > 0. Given: " + size.ToString());
+			return source.Skip(--page * size).Take(size);
+		}
 	}
 }
