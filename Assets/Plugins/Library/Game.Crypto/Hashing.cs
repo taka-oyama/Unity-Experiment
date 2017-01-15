@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Game.Crypto
 {
-	public class Hashing
+	public sealed class Hashing
 	{
 		#region MD5
 		public static string MD5(string source)

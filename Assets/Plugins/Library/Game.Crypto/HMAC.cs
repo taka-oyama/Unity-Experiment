@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Game.Crypto
 {
-	public class HMAC
+	public sealed class HMAC
 	{
 		#region MD5
 		public static string MD5(string key, string message)
