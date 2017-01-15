@@ -1,6 +1,6 @@
 ﻿namespace UnityEngine
 {
-	public static class GameObjectExtension
+	public static class MonoBehaviourExtension
 	{
 		public static MonoBehaviour Append(this MonoBehaviour parent, MonoBehaviour child, bool worldPositionStays = true)
 		{
