@@ -42,7 +42,7 @@ public abstract class SceneBase : GlobalBehaviour<SceneBase>
 
 	/// <summary>
 	/// Starts the exiting process.
-	/// Should only be called from Scene Navigator.
+	/// Should only be called from Scene Coordinator.
 	/// </summary>
 	internal IEnumerator StartExiting()
 	{
