@@ -46,9 +46,9 @@ public sealed class ErrorCatcher : SingletonBehaviour<ErrorCatcher>
 		canvas.gameObject.SetActive(false);
 		if(onClear != null) {
 			this.onClear.Invoke();
+			this.onClear.RemoveAllListeners();
 		}
 		if(onCatch != null) {
-			this.onClear.RemoveAllListeners();
 			this.onCatch.RemoveAllListeners();
 		}
 		this.stash = null;

@@ -95,7 +95,7 @@ public class DiagnosticsEditorWindow : EditorWindow
 				switch(selection) {
 				case 0:
 					string rootPath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-					string bundleId = Application.bundleIdentifier;
+					string bundleId = Application.identifier;
 					string cachePath = string.Format("{0}/Library/Caches/Unity/{1}", rootPath, bundleId);
 					if(Directory.Exists(cachePath)) {
 						EditorUtility.RevealInFinder(cachePath);
