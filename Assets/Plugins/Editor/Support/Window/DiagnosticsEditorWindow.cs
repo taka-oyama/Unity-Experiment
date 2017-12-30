@@ -133,7 +133,7 @@ public class DiagnosticsEditorWindow : EditorWindow
 					break;
 				case 1:
 					if(EditorUtility.DisplayDialog(options[selection], GenerateClearContentQuestion(" - call Caching.CleanCache()"), "Clear All", "Cancel")) {
-						Caching.CleanCache();
+						Caching.ClearCache();
 					}
 					break;
 				case 2:
@@ -146,7 +146,7 @@ public class DiagnosticsEditorWindow : EditorWindow
 						PlayerPrefs.DeleteAll();
 						ClearDataInPath(Application.temporaryCachePath);
 						ClearDataInPath(Application.persistentDataPath);
-						Caching.CleanCache();
+						Caching.ClearCache();
 					}
 					break;
 				}
