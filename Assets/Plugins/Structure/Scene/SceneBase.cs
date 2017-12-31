@@ -27,7 +27,7 @@ public abstract class SceneBase : GlobalBehaviour<SceneBase>
 		ChangeFrameRate(defaultFrameRate);
 
 		ChangeState(State.Init);
-		yield return StartCoroutine(Init());
+		yield return StartCoroutine(Init(GetTransitionParameters()));
 
 		ChangeState(State.Load);
 		yield return StartCoroutine(Load());
@@ -64,6 +64,11 @@ public abstract class SceneBase : GlobalBehaviour<SceneBase>
 	[HideInInspector] public StateChangeEvent onStateChanged = new StateChangeEvent();
 	State currentState;
 
+	object[] GetTransitionParameters()
+	{
+		return SceneNavigator.TransitionParams ?? new object[0];
+	}
+
 	void ChangeState(State state)
 	{
 		Log("State: {0} -> {1}", currentState.ToString(), state.ToString());
@@ -71,8 +76,9 @@ public abstract class SceneBase : GlobalBehaviour<SceneBase>
 		this.onStateChanged.Invoke(state);
 	}
 
-	protected virtual IEnumerator Init()
+	protected virtual IEnumerator Init(object[] transitionParams)
 	{
+		Debug.Log(transitionParams);
 		yield break;
 	}
 

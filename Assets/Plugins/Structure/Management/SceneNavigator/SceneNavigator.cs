@@ -4,43 +4,43 @@ using System.Collections;
 
 public sealed class SceneNavigator : SingletonBehaviour<SceneNavigator>
 {
-	public SceneBase Current { get; private set; }
-	public object[] TransitionParams { get; private set; }
-	Scene previousScene;
-	Coroutine transition;
-	string nextSceneName;
+	public static SceneBase Current { get; private set; }
+	public static object[] TransitionParams { get; private set; }
+	static Scene previousScene;
+	static Coroutine transition;
+	static string nextSceneName;
 
 	void Start()
 	{
 		SceneManager.activeSceneChanged += OnSceneChanged;
-		this.Current = GameObject.FindObjectOfType<SceneBase>();
+		Current = GameObject.FindObjectOfType<SceneBase>();
 	}
 
 	void OnSceneChanged(Scene previous, Scene current)
 	{
-		this.previousScene = previous;
-		this.Current = GameObject.FindObjectOfType<SceneBase>();
+		previousScene = previous;
+		Current = GameObject.FindObjectOfType<SceneBase>();
 	}
 
-	public void Back(params object[] args)
+	public static void Back(params object[] args)
 	{
 		MoveTo(previousScene, args);
 	}
 
-	public void MoveTo(Scene scene, params object[] args)
+	public static void MoveTo(Scene scene, params object[] args)
 	{
 		MoveTo(scene.name, args);
 	}
 
-	public void MoveTo(string sceneName, params object[] args)
+	public static void MoveTo(string sceneName, params object[] args)
 	{
 		if(transition != null) {
 			Debug.LogWarningFormat("Canceling transition to <{0}> and starting new transition to <{1}>", nextSceneName, sceneName);
-			this.nextSceneName = null;
-			StopCoroutine(transition);
+			nextSceneName = null;
+			I.StopCoroutine(transition);
 		}
-		this.nextSceneName = sceneName;
-		this.transition = StartCoroutine(MoveToCoroutine(sceneName, args));
+		nextSceneName = sceneName;
+		transition = I.StartCoroutine(I.MoveToCoroutine(sceneName, args));
 	}
 
 	IEnumerator MoveToCoroutine(string sceneName, params object[] args)
@@ -50,9 +50,9 @@ public sealed class SceneNavigator : SingletonBehaviour<SceneNavigator>
 		yield return StartCoroutine(Current.StartExiting());
 		yield return new WaitUntil(() => sceneLoader.progress >= 0.9f);
 		sceneLoader.allowSceneActivation = true;
-		this.TransitionParams = args;
-		this.nextSceneName = null;
-		this.transition = null;
+		TransitionParams = args;
+		nextSceneName = null;
+		transition = null;
 	}
 
 	protected override void OnDestroy()
