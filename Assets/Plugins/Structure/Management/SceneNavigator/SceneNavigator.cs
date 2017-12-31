@@ -2,9 +2,9 @@
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public sealed class SceneCoordinator : SingletonBehaviour<SceneCoordinator>
+public sealed class SceneNavigator : SingletonBehaviour<SceneNavigator>
 {
-	public SceneBase Active { get; private set; }
+	public SceneBase Current { get; private set; }
 	public object[] TransitionParams { get; private set; }
 	Scene previousScene;
 	Coroutine transition;
@@ -13,13 +13,13 @@ public sealed class SceneCoordinator : SingletonBehaviour<SceneCoordinator>
 	void Start()
 	{
 		SceneManager.activeSceneChanged += OnSceneChanged;
-		this.Active = GameObject.FindObjectOfType<SceneBase>();
+		this.Current = GameObject.FindObjectOfType<SceneBase>();
 	}
 
 	void OnSceneChanged(Scene previous, Scene current)
 	{
 		this.previousScene = previous;
-		this.Active = GameObject.FindObjectOfType<SceneBase>();
+		this.Current = GameObject.FindObjectOfType<SceneBase>();
 	}
 
 	public void Back(params object[] args)
@@ -47,7 +47,7 @@ public sealed class SceneCoordinator : SingletonBehaviour<SceneCoordinator>
 	{
 		AsyncOperation sceneLoader = SceneManager.LoadSceneAsync(sceneName);
 		sceneLoader.allowSceneActivation = false;
-		yield return StartCoroutine(Active.StartExiting());
+		yield return StartCoroutine(Current.StartExiting());
 		yield return new WaitUntil(() => sceneLoader.progress >= 0.9f);
 		sceneLoader.allowSceneActivation = true;
 		this.TransitionParams = args;
