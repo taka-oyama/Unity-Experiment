@@ -14,7 +14,7 @@ public sealed class UIDebugError : UIPanel
 		base.Awake();
 	}
 
-	public void Init(ErrorCatcher.Info info, UnityAction onClose)
+	public void Init(ErrorHandler.Info info, UnityAction onClose)
 	{
 		title.text = string.Format("{0} in Scene: {1}", info.type, info.sceneName);
 		sysInfo.text = string.Join("\n",new []{

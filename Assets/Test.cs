@@ -6,7 +6,6 @@ public class Test : MonoBehaviour
 
 	void Start()
 	{
-		calc = GetComponent<ExpMeter>().Setup(new int[1], 0);
-		calc.Add(300);
+		
 	}
 }

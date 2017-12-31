@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System;
 
-public sealed class ErrorCatcher : SingletonBehaviour<ErrorCatcher>
+public sealed class ErrorHandler : SingletonBehaviour<ErrorHandler>
 {
 	Info? stash;
 

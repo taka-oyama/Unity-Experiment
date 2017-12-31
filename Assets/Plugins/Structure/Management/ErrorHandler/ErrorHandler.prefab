@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 4065233509130440}
   - component: {fileID: 114698558932781010}
   m_Layer: 0
-  m_Name: ErrorCatcher
+  m_Name: ErrorManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
