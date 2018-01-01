@@ -7,8 +7,6 @@ namespace Game.IO
 {
 	public sealed class ReadFileAsync : CustomYieldInstruction, IDisposable
 	{
-		static object locker = new object();
-
 		string sourcePath;
 		int bufferSize;
 
@@ -56,9 +54,7 @@ namespace Game.IO
 		{
 			ThreadPool.QueueUserWorkItem(_ => {
 				try {
-					lock(locker) {
-						this.bytes = ReadInThread();
-					}
+					this.bytes = ReadInThread();
 				}
 				catch(Exception exception) {
 					this.exception = exception;

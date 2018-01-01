@@ -7,7 +7,6 @@ namespace Game.IO
 {
 	public sealed class WriteFileAsync : CustomYieldInstruction
 	{
-		static object locker = new object();
 		string destinationPath;
 		int bufferSize;
 		Stream stream;
@@ -56,9 +55,7 @@ namespace Game.IO
 		{
 			ThreadPool.QueueUserWorkItem(_ => {
 				try {
-					lock(locker) {
-						WriteInThread();
-					}
+					WriteInThread();
 				}
 				catch(Exception exception) {
 					this.exception = exception;
