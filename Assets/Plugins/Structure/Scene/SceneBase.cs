@@ -78,7 +78,6 @@ public abstract class SceneBase : GlobalBehaviour<SceneBase>
 
 	protected virtual IEnumerator Init(object[] transitionParams)
 	{
-		Debug.Log(transitionParams);
 		yield break;
 	}
 
