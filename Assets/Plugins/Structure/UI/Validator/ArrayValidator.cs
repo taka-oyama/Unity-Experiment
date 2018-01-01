@@ -9,7 +9,7 @@ internal sealed class ArrayValidator
 	/// Validate added ui and remove duplicates.
 	/// This will also sort it in alphabetical order.
 	/// </summary>
-	internal static T[] RemoveDuplicateAndSort<T>(T[] source) where T : MonoBehaviour
+	internal static T[] RemoveDuplicateAndSort<T>(T[] source) where T : UnityEngine.Object
 	{
 		var hashSet = new HashSet<T>();
 		for(int i = 0; i < source.Length; i++) {

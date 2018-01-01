@@ -22,4 +22,9 @@ public sealed class GameInitializer : SingletonBehaviour<GameInitializer>
 			Assert.IsNotNull(initializer, "Could not load " + resourcePath);
 		}
 	}
+
+	void OnValidate()
+	{
+		this.preliminaries = ArrayValidator.RemoveDuplicateAndSort(preliminaries);
+	}
 }
