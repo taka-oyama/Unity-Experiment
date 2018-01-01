@@ -67,8 +67,7 @@ namespace Game.IO
 
 		byte[] ReadInThread()
 		{
-			using(Stream stream = File.OpenRead(sourcePath))
-			{
+			using(Stream stream = new FileStream(sourcePath, FileMode.Open, FileAccess.Read, FileShare.None)) {
 				byte[] data = new byte[stream.Length];
 				int fileSize = (int)stream.Length;
 				int readBlock = 0;

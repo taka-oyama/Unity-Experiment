@@ -71,7 +71,7 @@ namespace Game.IO
 		{
 			Directory.CreateDirectory(Path.GetDirectoryName(destinationPath));
 
-			using(Stream dest = File.OpenWrite(destinationPath)) {
+			using(Stream dest = new FileStream(destinationPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.None)) {
 				byte[] buffer = new byte[bufferSize];
 				long totalBytes = 0;
 				int readBytes = 0;
