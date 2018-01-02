@@ -3,8 +3,8 @@ using UnityEngine;
 
 public abstract class GlobalBehaviour<T> : MonoBehaviour where T : GlobalBehaviour<T>
 {
-	public static T I { get; protected set; }
-	public static bool Exists { get { return I != null; } }
+	public static T Instance { get; protected set; }
+	public static bool Exists { get { return Instance != null; } }
 	public static bool NotExists { get { return !Exists; } }
 
 	protected virtual void Awake()
@@ -13,12 +13,12 @@ public abstract class GlobalBehaviour<T> : MonoBehaviour where T : GlobalBehavio
 			string message = string.Format("Singleton Instance <{0}> already exists!", GetType().Name);
 			throw new Exception(message);
 		}
-		I = this as T;
+		Instance = this as T;
 		this.name = string.Concat(GetType().Name, " (Global)");
 	}
 
 	protected virtual void OnDestroy()
 	{
-		I = null;
+		Instance = null;
 	}
 }

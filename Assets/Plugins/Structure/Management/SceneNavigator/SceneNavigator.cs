@@ -30,9 +30,9 @@ public sealed class SceneNavigator : SingletonBehaviour<SceneNavigator>
 	{
 		if(transition != null) {
 			Debug.LogWarningFormat("Canceling previous transition and starting new transition to <{0}>", scene.name);
-			I.StopCoroutine(transition);
+			Instance.StopCoroutine(transition);
 		}
-		transition = I.StartCoroutine(I.MoveToCoroutine(scene, args));
+		transition = Instance.StartCoroutine(Instance.MoveToCoroutine(scene, args));
 	}
 
 	IEnumerator MoveToCoroutine(Scene scene, params object[] args)
