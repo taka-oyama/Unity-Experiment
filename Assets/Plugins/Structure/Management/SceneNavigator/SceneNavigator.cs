@@ -4,22 +4,21 @@ using System.Collections;
 
 public sealed class SceneNavigator : SingletonBehaviour<SceneNavigator>
 {
-	public static SceneBase Current { get; private set; }
 	public static object[] TransitionParams { get; private set; }
+	static SceneBase Current;
 	static Scene previousScene;
 	static Coroutine transition;
-	static string nextSceneName;
 
 	void Start()
 	{
 		SceneManager.activeSceneChanged += OnSceneChanged;
-		Current = GameObject.FindObjectOfType<SceneBase>();
+		Current = FindObjectOfType<SceneBase>();
 	}
 
 	void OnSceneChanged(Scene previous, Scene current)
 	{
 		previousScene = previous;
-		Current = GameObject.FindObjectOfType<SceneBase>();
+		Current = FindObjectOfType<SceneBase>();
 	}
 
 	public static void Back(params object[] args)
@@ -29,29 +28,21 @@ public sealed class SceneNavigator : SingletonBehaviour<SceneNavigator>
 
 	public static void MoveTo(Scene scene, params object[] args)
 	{
-		MoveTo(scene.name, args);
-	}
-
-	public static void MoveTo(string sceneName, params object[] args)
-	{
 		if(transition != null) {
-			Debug.LogWarningFormat("Canceling transition to <{0}> and starting new transition to <{1}>", nextSceneName, sceneName);
-			nextSceneName = null;
+			Debug.LogWarningFormat("Canceling previous transition and starting new transition to <{0}>", scene.name);
 			I.StopCoroutine(transition);
 		}
-		nextSceneName = sceneName;
-		transition = I.StartCoroutine(I.MoveToCoroutine(sceneName, args));
+		transition = I.StartCoroutine(I.MoveToCoroutine(scene, args));
 	}
 
-	IEnumerator MoveToCoroutine(string sceneName, params object[] args)
+	IEnumerator MoveToCoroutine(Scene scene, params object[] args)
 	{
-		AsyncOperation sceneLoader = SceneManager.LoadSceneAsync(sceneName);
+		AsyncOperation sceneLoader = SceneManager.LoadSceneAsync(scene.buildIndex);
 		sceneLoader.allowSceneActivation = false;
 		yield return StartCoroutine(Current.StartExiting());
 		yield return new WaitUntil(() => sceneLoader.progress >= 0.9f);
 		sceneLoader.allowSceneActivation = true;
 		TransitionParams = args;
-		nextSceneName = null;
 		transition = null;
 	}
 
