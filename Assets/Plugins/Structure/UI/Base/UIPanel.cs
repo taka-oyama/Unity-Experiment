@@ -55,4 +55,10 @@ public abstract class UIPanel : MonoBehaviour
 		onClosed.Invoke();
 		Destroy(gameObject);
 	}
+
+	public virtual void OnDestroy()
+	{
+		onOpened.RemoveAllListeners();
+		onClosed.RemoveAllListeners();
+	}
 }

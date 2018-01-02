@@ -13,4 +13,11 @@ public class UIModal : UIPanel
 		okButton.onClick.AddListener(Close);
 		cancelButton.onClick.AddListener(Close);
 	}
+
+	public override void OnDestroy()
+	{
+		base.OnDestroy();
+		okButton.onClick.RemoveListener(Close);
+		cancelButton.onClick.RemoveListener(Close);
+	}
 }
