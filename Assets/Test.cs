@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Test : MonoBehaviour
 {
@@ -7,5 +8,10 @@ public class Test : MonoBehaviour
 	void Start()
 	{
 		
+	}
+
+	public void OnClick()
+	{
+		throw new UnityException("test");
 	}
 }
