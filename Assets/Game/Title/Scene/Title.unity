@@ -310,7 +310,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fd487e2fd98643a591c2807b949c945, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiBucketName: 
   canvas: {fileID: 1442107224}
   uiPrefabs:
   - {fileID: 114258669223993566, guid: 1670461321e634d7d9d4db4e18c13dd8, type: 2}

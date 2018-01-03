@@ -3,7 +3,7 @@ using System.IO;
 using System;
 using System.Threading;
 
-namespace Game.File
+namespace Game.IO
 {
 	public sealed class WriteFileAsync : CustomYieldInstruction
 	{
