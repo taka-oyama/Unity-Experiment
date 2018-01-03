@@ -26,23 +26,18 @@ namespace Game.UI
 		/// <summary>
 		/// Check if canvas has T.
 		/// </summary>
-		public bool Has<T>() where T : UIPanel
+		public bool Has<T>(bool includeInactive = false) where T : UIPanel
 		{
-			return canvas.GetComponentInChildren<T>() != null;
+			return canvas.GetComponentInChildren<T>(includeInactive) != null;
 		}
 
 		/// <summary>
 		/// Find UI with the same name as the class.
 		/// Will return null if UI is not found.
 		/// </summary>
-		public T Find<T>() where T : UIPanel
+		public T Find<T>(bool includeInactive = false) where T : UIPanel
 		{
-			for(int i = canvas.transform.childCount - 1; i >= 0; i--) {
-				Transform child = canvas.transform.GetChild(i);
-				T panel = child.GetComponent<T>();
-				if(panel != null) return panel;
-			}
-			return null;
+			return canvas.GetComponentInChildren<T>(includeInactive);
 		}
 
 		/// <summary>
@@ -56,9 +51,9 @@ namespace Game.UI
 		/// <summary>
 		/// returns the number of UIPanels in canvas.
 		/// </summary>
-		public int Count()
+		public int Count(bool includeInactive = false)
 		{
-			return canvas.GetComponentsInChildren<UIPanel>().Length;
+			return canvas.GetComponentsInChildren<UIPanel>(includeInactive).Length;
 		}
 
 		/// <summary>
@@ -75,9 +70,9 @@ namespace Game.UI
 		T LookupPrefab<T>() where T : UIPanel
 		{
 			T prefab = null;
-			foreach(var ui in uiPrefabs) {
-				if(ui is T) {
-					prefab = ui as T;
+			foreach(UIPanel uiPrefab in uiPrefabs) {
+				if(uiPrefab is T) {
+					prefab = uiPrefab as T;
 					break;
 				}
 			}
