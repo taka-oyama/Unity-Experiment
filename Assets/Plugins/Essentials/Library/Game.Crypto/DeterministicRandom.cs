@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using Game;
 
 namespace Game.Crypto
 {
@@ -23,11 +22,11 @@ namespace Game.Crypto
 			this.max = max;
 		}
 
-		public DeterministicRandom(IntRange range) : this(range.min, range.max)
+		public DeterministicRandom(IntRange range) : this(range.Min, range.Max)
 		{
 		}
 
-		public DeterministicRandom(IntRange range, int seed) : this(range.min, range.max, seed)
+		public DeterministicRandom(IntRange range, int seed) : this(range.Min, range.Max, seed)
 		{
 		}
 
