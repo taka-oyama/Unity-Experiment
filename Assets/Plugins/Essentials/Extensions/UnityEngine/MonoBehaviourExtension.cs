@@ -25,12 +25,12 @@
 
 		public static void RemoveComponent<T>(this MonoBehaviour go) where T : MonoBehaviour
 		{
-			GameObject.Destroy(go.GetComponent<T>());
+			Object.Destroy(go.GetComponent<T>());
 		}
 
 		public static void RemoveComponentImmediate<T>(this MonoBehaviour go) where T : MonoBehaviour
 		{
-			GameObject.DestroyImmediate(go.GetComponent<T>());
+			Object.DestroyImmediate(go.GetComponent<T>());
 		}
 	}
 }

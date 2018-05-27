@@ -1,5 +1,4 @@
-﻿using UnityEngine.Assertions;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System;
@@ -8,18 +7,18 @@ namespace Game
 {
 	public struct IntRange : IEnumerable<int>
 	{
-		public int min;
-		public int max;
+		public int Min;
+		public int Max;
 
 		public IntRange(int min, int max)
 		{
-			this.min = min;
-			this.max = max;
+			this.Min = min;
+			this.Max = max;
 		}
 
 		public IEnumerator<int> GetEnumerator()
 		{
-			return Enumerable.Range(min, max - min + 1).GetEnumerator();
+			return Enumerable.Range(Min, Max - Min + 1).GetEnumerator();
 		}
 
 		IEnumerator IEnumerable.GetEnumerator()

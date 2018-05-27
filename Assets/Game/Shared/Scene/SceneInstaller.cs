@@ -4,10 +4,11 @@ using Game.SceneManagement;
 
 public class SceneInstaller : MonoInstaller<SceneInstaller>
 {
-	[SerializeField] SceneBase scene;
+	[SerializeField]
+	SceneBase scene;
 
     public override void InstallBindings()
     {
-		Container.BindInstance<SceneBase>(scene);
+		Container.BindInstance(scene);
     }
 }

@@ -2,7 +2,6 @@
 using Game.Messaging;
 using System.Collections.Generic;
 using System;
-using Game;
 
 public class NotificationCenter : MonoBehaviour
 {
@@ -28,9 +27,8 @@ public class NotificationCenter : MonoBehaviour
 		Type type = typeof(T);
 		if(notifiers.ContainsKey(type)) {
 			return notifiers.Remove(type);
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	public void RemoveAllObservers()

@@ -33,8 +33,7 @@ namespace Game.Crypto
 
 		const int blockSize = 128;
 		const int keySize = 256;
-
-		string salt;
+		readonly string salt;
 
 		public AuthenticatedEncryption(string salt)
 		{
