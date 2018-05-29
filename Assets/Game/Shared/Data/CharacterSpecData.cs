@@ -1,8 +1,6 @@
-﻿using System;
-using Game;
+﻿using Game;
 using UnityEngine;
 
-[Serializable]
 public class CharacterSpecData
 {
 	public int Dexterity;

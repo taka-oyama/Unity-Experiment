@@ -3,5 +3,5 @@ using UnityEngine;
 
 public class WorldData
 {
-	public static TimeSpan DayInterval = TimeSpan.FromSeconds(1);
+	public static TimeSpan YearInterval = TimeSpan.FromSeconds(1);
 }

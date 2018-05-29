@@ -1,8 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using Game;
 
-[Serializable]
 public class CharacterPersonalityData
 {
 	public int Attention;   // extrovert <-> introvert

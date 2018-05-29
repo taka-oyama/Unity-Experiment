@@ -51,22 +51,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 827b9180020974dc898aebcca9745f83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Name: 
-  Gender: 0
-  Age: 0
-  Data:
-    Name: 
-    Gender: 0
-    Personality:
-      Attention: 0
-      Perception: 0
-      Decision: 0
-      Orientation: 0
-    BaseSpec:
-      Dexterity: 0
-      Intelligence: 0
-      Vitality: 0
-    CompoundSpec:
-      Dexterity: 0
-      Intelligence: 0
-      Vitality: 0

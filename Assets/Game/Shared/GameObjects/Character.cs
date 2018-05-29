@@ -1,26 +1,19 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Zenject;
 
-public class Character : MonoBehaviour
+public partial class Character : MonoBehaviour
 {
-	public string Name;
-	public Gender Gender;
-	public int Age;
-
 	[Inject]
 	public CharacterData Data;
 
-	void Awake()
+	void Update()
 	{
-		this.name = Data.Name + " (" + Data.Gender + ")";
-
-		this.Name = Data.Name;
-		this.Gender = Data.Gender;
-		this.Age = Data.Age;
+		UpdateName();
 	}
 
-	void FixedUpdate()
+	public void MarryWith(Character spouse)
 	{
-		this.Age = Data.Age;
+		Data.MarryWith(spouse.Data);
 	}
 }

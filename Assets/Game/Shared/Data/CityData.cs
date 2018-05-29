@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class TownData
+public class CityData
 {
 	public int Electricity = 0;
 
@@ -21,7 +21,7 @@ public class TownData
 	public List<Building> Buildings;
 	public List<CharacterData> Citizens;
 
-	public TownData()
+	public CityData()
 	{
 		Buildings = new List<Building>();
 		Citizens = new List<CharacterData>();

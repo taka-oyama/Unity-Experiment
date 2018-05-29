@@ -2,23 +2,23 @@
 
 public static class TimeSpanExtension
 {
-	public static DateTimeOffset Ago(this TimeSpan span, DateTimeOffset since)
+	public static DateTime Ago(this TimeSpan span, DateTime since)
 	{
 		return since.Subtract(span);
 	}
 
-	public static DateTimeOffset Ago(this TimeSpan span)
+	public static DateTime Ago(this TimeSpan span)
 	{
-		return DateTimeOffset.Now.Subtract(span);
+		return DateTime.Now.Subtract(span);
 	}
 
-	public static DateTimeOffset Since(this TimeSpan span, DateTimeOffset time)
+	public static DateTime Since(this TimeSpan span, DateTime time)
 	{
 		return time.Add(span);
 	}
 
-	public static DateTimeOffset FromNow(this TimeSpan span)
+	public static DateTime FromNow(this TimeSpan span)
 	{
-		return DateTimeOffset.Now.Add(span);
+		return DateTime.Now.Add(span);
 	}
 }
