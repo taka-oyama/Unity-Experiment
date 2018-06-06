@@ -11,15 +11,14 @@ public class World : MonoBehaviour
 	[SerializeField]
 	GameObject charactersPlaceholder;
 
-	[SerializeField]
-	int birthRatePercentage = 100;
-
 	List<Character> population;
+
+	public static TimeSpan YearInterval = TimeSpan.FromSeconds(1);
 
 	void Awake()
 	{
 		population = new List<Character>();
-		InvokeRepeating(nameof(EachSecond), 0f, (float)WorldData.YearInterval.TotalSeconds);
+		InvokeRepeating(nameof(EachSecond), 0f, (float)YearInterval.TotalSeconds);
 	}
 
 	public void EachSecond()
@@ -27,31 +26,43 @@ public class World : MonoBehaviour
 		List<Character> reproduceables = new List<Character>();
 		List<Character> marriableMales = new List<Character>();
 		List<Character> marriableFemales = new List<Character>();
+		List<Character> willBeDeads = new List<Character>();
 
 		foreach(Character character in population) {
-			CharacterData data = character.Data;
-			if(data.CanReproduce) reproduceables.Add(character);
-			if(data.IsMale && data.CanMarry) marriableMales.Add(character);
-			if(data.IsFemale && data.CanMarry) marriableFemales.Add(character);
+			if(character.CanReproduce) reproduceables.Add(character);
+			if(character.IsMale && character.CanMarry) marriableMales.Add(character);
+			if(character.IsFemale && character.CanMarry) marriableFemales.Add(character);
+			if(character.Age >= 85) willBeDeads.Add(character);
 		}
 
-		int matchableCount = Math.Min(marriableMales.Count, marriableFemales.Count);
-		//matchableCount = (int)Mathf.Ceil(UnityEngine.Random.Range(0, matchableCount) / 2f);
+		int matchableCount = Mathf.Min(marriableMales.Count, marriableFemales.Count);
+		matchableCount = (int)Mathf.Ceil(UnityEngine.Random.Range(0f, matchableCount) / 2f);
 		for(int i = 0; i < matchableCount; i++) {
-			if(marriableMales.IsNotEmpty() && marriableFemales.IsNotEmpty()) {
-				Character male = marriableMales.RemoveRandom();
-				Character female = marriableFemales.RemoveRandom();
+			Character male = marriableMales.RemoveRandom();
+			Character female = marriableFemales.RemoveRandom();
+			if(male == null || female == null) {
+				break;
+			}
+			if(male.CanMarryWith(female)) {
 				male.MarryWith(female);
-				Debug.LogFormat("結婚確定: {0} + {1}", male.Data.Name, female.Data.Name);
+				Debug.LogFormat("結婚確定: {0} + {1}", male.name, female.name);
 			}
 		}
 
 		foreach(Character reproduceable in reproduceables) {
-			if(UnityEngine.Random.Range(0, 100) <= birthRatePercentage) {
-				Character child = characterFactory.Create(reproduceable.Data.Impregenate());
+			float percentage = PregnancyCalculator.GetPercentage(reproduceable);
+			if(UnityEngine.Random.Range(0f, 100f) <= percentage) {
+				Character child = reproduceable.Impregenate(characterFactory);
 				population.Add(child);
 				charactersPlaceholder.Append(child);
-				Debug.LogFormat("妊娠確定: {0} + {1} = {2}", child.Data.Father.Name, child.Data.Mother.Name, child.Data.Name);
+				Debug.LogFormat("妊娠確定: {0} + {1} = {2} ({3}%)", child.Father.name, child.Mother.name, child.name, percentage);
+			}
+		}
+
+		foreach(Character willbeDead in willBeDeads) {
+			if(willbeDead.Age > 85) {
+				willbeDead.Die();
+				population.Remove(willbeDead);
 			}
 		}
 	}

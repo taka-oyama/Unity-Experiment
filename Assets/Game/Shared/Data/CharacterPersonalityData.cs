@@ -25,6 +25,16 @@ public class CharacterPersonalityData
 		};
 	}
 
+	public CharacterPersonalityData Copy()
+	{
+		return new CharacterPersonalityData {
+			Attention = Attention,
+			Perception = Perception,
+			Decision = Decision,
+			Orientation = Orientation,
+		};
+	}
+
 	public static CharacterPersonalityData operator +(CharacterPersonalityData p1, CharacterPersonalityData p2)
 	{
 		return new CharacterPersonalityData {

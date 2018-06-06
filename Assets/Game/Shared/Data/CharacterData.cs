@@ -8,27 +8,39 @@ public class CharacterData
 	public string Name;
 	public Gender Gender;
 	public DateTime Birthday;
+	public DateTime? Deathday;
 
 	public CharacterPersonalityData Personality;
 	public CharacterSpecData BaseSpec;
 	public CharacterSpecData CompoundSpec;
 
-	public CharacterData Mother;
-	public CharacterData Father;
-	public CharacterData Spouse;
-	public List<CharacterData> Children;
+	public Guid? MotherId;
+	public Guid? FatherId;
+	public Guid? SpouseId;
+	public List<Guid> ChildrenIds;
 
-	public bool IsMale => Gender == Gender.Male;
-	public bool IsFemale => Gender == Gender.Female;
+	public void Die()
+	{
+		Deathday = DateTime.Now;
+	}
 
-	public int Age => (int)Math.Floor(Birthday.SpanFromNow().TotalSeconds / 1.GameYears().TotalSeconds);
-
-	public bool IsSingle => Spouse == null;
-	public bool IsMarried => !IsSingle;
-	public bool IsPregnant => Children != null && Children.Any(c => c.Age < 0);
-
-	public bool CanMarry => IsSingle && Age >= 18;
-	public bool CanReproduce => IsFemale && IsMarried && !IsPregnant;
+	public CharacterData Copy()
+	{
+		return new CharacterData {
+			Id = Id,
+			Name = Name,
+			Gender = Gender,
+			Birthday = Birthday,
+			Deathday = Deathday,
+			Personality = Personality.Copy(),
+			BaseSpec = BaseSpec.Copy(),
+			CompoundSpec = CompoundSpec.Copy(),
+			MotherId = MotherId,
+			FatherId = FatherId,
+			SpouseId = SpouseId,
+			ChildrenIds = ChildrenIds.Select(guid => guid).ToList(),
+		};
+	}
 
 	public static CharacterData Create(
 		Guid? id = null,
@@ -38,9 +50,10 @@ public class CharacterData
 		CharacterPersonalityData personality = null,
 		CharacterSpecData baseSpec = null,
 		CharacterSpecData compoundSpec = null,
-		CharacterData mother = null,
-		CharacterData father = null,
-		CharacterData spouse = null)
+		Guid? motherId = null,
+		Guid? fatherId = null,
+		Guid? spouseId = null,
+		List<Guid> childrenIds = null)
 	{
 		CharacterData data = new CharacterData();
 		data.Id = id ?? Guid.NewGuid();
@@ -50,29 +63,10 @@ public class CharacterData
 		data.Personality = personality ?? CharacterPersonalityData.Create();
 		data.BaseSpec = baseSpec ?? CharacterSpecData.Create();
 		data.CompoundSpec = compoundSpec ?? new CharacterSpecData();
-		data.Mother = mother;
-		data.Father = father;
-		data.Spouse = spouse;
+		data.MotherId = motherId;
+		data.FatherId = fatherId;
+		data.SpouseId = spouseId;
+		data.ChildrenIds = childrenIds ?? new List<Guid>();
 		return data;
-	}
-
-	public void MarryWith(CharacterData spouce)
-	{
-		Spouse = spouce;
-		spouce.Spouse = this;
-	}
-
-	public CharacterData Impregenate()
-	{
-		CharacterData childData = Create(
-			birthday: DateTime.Now + UnityEngine.Random.Range(240, 320).GameDays(),
-			father: IsMale ? this : Spouse,
-			mother: IsFemale ? this : Spouse,
-			personality: Personality + Spouse.Personality * UnityEngine.Random.Range(-1.25f, 1.25f) / 2f,
-			baseSpec: BaseSpec + Spouse.BaseSpec * UnityEngine.Random.Range(-1.25f, 1.25f) / 2f
-		);
-		Children = Children ?? new List<CharacterData>();
-		Children.Add(childData);
-		return childData;
 	}
 }
