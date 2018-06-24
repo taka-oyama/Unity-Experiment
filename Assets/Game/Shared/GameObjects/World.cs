@@ -32,7 +32,7 @@ public class World : MonoBehaviour
 			if(character.CanReproduce) reproduceables.Add(character);
 			if(character.IsMale && character.CanMarry) marriableMales.Add(character);
 			if(character.IsFemale && character.CanMarry) marriableFemales.Add(character);
-			if(character.Age >= 85) willBeDeads.Add(character);
+			if(character.IsDead) willBeDeads.Add(character);
 		}
 
 		int matchableCount = Mathf.Min(marriableMales.Count, marriableFemales.Count);
@@ -60,10 +60,8 @@ public class World : MonoBehaviour
 		}
 
 		foreach(Character willbeDead in willBeDeads) {
-			if(willbeDead.Age > 85) {
-				willbeDead.Die();
-				population.Remove(willbeDead);
-			}
+			willbeDead.Die();
+			population.Remove(willbeDead);
 		}
 	}
 

@@ -8,7 +8,7 @@ public class CharacterData
 	public string Name;
 	public Gender Gender;
 	public DateTime Birthday;
-	public DateTime? Deathday;
+	public DateTime Deathday;
 
 	public CharacterPersonalityData Personality;
 	public CharacterSpecData BaseSpec;
@@ -18,11 +18,6 @@ public class CharacterData
 	public Guid? FatherId;
 	public Guid? SpouseId;
 	public List<Guid> ChildrenIds;
-
-	public void Die()
-	{
-		Deathday = DateTime.Now;
-	}
 
 	public CharacterData Copy()
 	{
@@ -60,6 +55,7 @@ public class CharacterData
 		data.Gender = gender ?? CharacterGenderPicker.Pick();
 		data.Name = name ?? CharacterNamePicker.Pick(data.Gender);
 		data.Birthday = birthday ?? UnityEngine.Random.Range(15f, 25f).GameYears().Ago();
+		data.Deathday = data.Birthday + UnityEngine.Random.Range(60f, 100f).GameYears();
 		data.Personality = personality ?? CharacterPersonalityData.Create();
 		data.BaseSpec = baseSpec ?? CharacterSpecData.Create();
 		data.CompoundSpec = compoundSpec ?? new CharacterSpecData();

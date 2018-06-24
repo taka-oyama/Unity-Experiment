@@ -13,7 +13,7 @@ public partial class Character : MonoBehaviour
 	public string Name => Data.Name;
 	public Gender Gender => Data.Gender;
 	public DateTime Birthday => Data.Birthday;
-	public DateTime? Deathday => Data.Deathday;
+	public DateTime Deathday => Data.Deathday;
 
 	public Character Father { get; protected set; }
 	public Character Mother { get; protected set; }
@@ -30,7 +30,7 @@ public partial class Character : MonoBehaviour
 	public bool IsMarried => !IsSingle;
 	public bool CanReproduce => IsFemale && IsMarried && !IsPregnant;
 	public bool IsPregnant => Children.Any(c => c.Age < 0);
-	public bool IsDead => Deathday.HasValue;
+	public bool IsDead => DateTime.Now <= Deathday;
 
 	int? cachedAge;
 
@@ -56,7 +56,6 @@ public partial class Character : MonoBehaviour
 
 	public void Die()
 	{
-		Data.Die();
 		Destroy(gameObject);
 	}
 
