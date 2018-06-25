@@ -30,7 +30,7 @@ public partial class Character : MonoBehaviour
 	public bool IsMarried => !IsSingle;
 	public bool CanReproduce => IsFemale && IsMarried && !IsPregnant;
 	public bool IsPregnant => Children.Any(c => c.Age < 0);
-	public bool IsDead => DateTime.Now <= Deathday;
+	public bool IsDead => DateTime.Now >= Deathday;
 
 	int? cachedAge;
 

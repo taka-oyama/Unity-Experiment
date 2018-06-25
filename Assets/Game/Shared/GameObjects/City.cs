@@ -32,7 +32,7 @@ public class City : MonoBehaviour
 			if(character.CanReproduce) reproduceables.Add(character);
 			if(character.IsMale && character.CanMarry) marriableMales.Add(character);
 			if(character.IsFemale && character.CanMarry) marriableFemales.Add(character);
-			//if(character.IsDead) willBeDeads.Add(character);
+			if(character.IsDead) willBeDeads.Add(character);
 		}
 
 		int matchableCount = Mathf.Min(marriableMales.Count, marriableFemales.Count);
