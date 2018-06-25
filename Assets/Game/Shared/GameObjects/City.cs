@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class World : MonoBehaviour
+public class City : MonoBehaviour
 {
 	[Inject]
 	CharacterFactory characterFactory;
@@ -32,7 +32,7 @@ public class World : MonoBehaviour
 			if(character.CanReproduce) reproduceables.Add(character);
 			if(character.IsMale && character.CanMarry) marriableMales.Add(character);
 			if(character.IsFemale && character.CanMarry) marriableFemales.Add(character);
-			if(character.IsDead) willBeDeads.Add(character);
+			//if(character.IsDead) willBeDeads.Add(character);
 		}
 
 		int matchableCount = Mathf.Min(marriableMales.Count, marriableFemales.Count);

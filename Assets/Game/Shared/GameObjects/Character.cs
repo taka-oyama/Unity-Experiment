@@ -95,7 +95,7 @@ public partial class Character : MonoBehaviour
 
 		Character child = factory.Create(childData);
 		child.Mother = this;
-		child.Father = Mother.Spouse;
+		child.Father = child.Mother.Spouse;
 		Children.Add(child);
 
 		return child;
