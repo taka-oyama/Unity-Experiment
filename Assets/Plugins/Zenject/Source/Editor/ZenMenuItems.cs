@@ -287,7 +287,7 @@ namespace Zenject
             ValidateWrapper(() =>
                 {
                     var numValidated = ZenUnityEditorUtil.ValidateAllActiveScenes();
-                    ModestTree.Log.Info("Validated all '{0}' active scenes successfully", numValidated);
+                    Log.Info("Validated all '{0}' active scenes successfully", numValidated);
                 });
         }
 
@@ -304,7 +304,7 @@ namespace Zenject
                 }
                 catch (Exception e)
                 {
-                    ModestTree.Log.ErrorException(e);
+                    Log.ErrorException(e);
                     return false;
                 }
                 finally
@@ -324,7 +324,7 @@ namespace Zenject
             return ValidateWrapper(() =>
                 {
                     ZenUnityEditorUtil.ValidateCurrentSceneSetup();
-                    ModestTree.Log.Info("All scenes validated successfully");
+                    Log.Info("All scenes validated successfully");
                 });
         }
     }

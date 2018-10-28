@@ -75,11 +75,8 @@ namespace Zenject
 
         public void Despawn(TContract item)
         {
-            if (_inactiveItems.Contains(item))
-            {
-                throw Assert.CreateException(
-                    "Tried to return an item to pool {0} twice", this.GetType());
-            }
+            Assert.That(!_inactiveItems.Contains(item),
+                "Tried to return an item to pool {0} twice", this.GetType());
 
             _activeCount--;
 
@@ -93,11 +90,7 @@ namespace Zenject
             try
             {
                 var item = _factory.Create();
-                if (item == null)
-                {
-                    throw Assert.CreateException(
-                        "Factory '{0}' returned null value when creating via {1}!", _factory.GetType(), this.GetType());
-                }
+                Assert.IsNotNull(item, "Factory '{0}' returned null value when creating via {1}!", _factory.GetType(), this.GetType());
                 OnCreated(item);
                 return item;
             }
@@ -138,29 +131,6 @@ namespace Zenject
 
             OnSpawned(item);
             return item;
-        }
-
-        /// <summary>
-        /// Expands the pool by the additional size.
-        ///
-        /// This bypasses the configured expansion method (OneAtATime or Doubling), but still enforces the Fixed size
-        /// constraint.
-        /// </summary>
-        /// <param name="additionalSize">The additional number of items to allocate in the pool.</param>
-        /// <exception cref="PoolExceededFixedSizeException">if the pool is configured with a fixed size.</exception>
-        public void ExpandPoolBy(int additionalSize)
-        {
-            if (_settings.ExpandMethod == PoolExpandMethods.Fixed)
-            {
-                throw new PoolExceededFixedSizeException(
-                    "Pool factory '{0}' exceeded its max size of '{1}'!"
-                    .Fmt(this.GetType(), NumTotal));
-            }
-
-            for (int i = 0; i < additionalSize; i++)
-            {
-                _inactiveItems.Push(AllocNew());
-            }
         }
 
         void ExpandPool()

@@ -106,6 +106,8 @@ namespace Zenject
                 };
 
                 _container.InjectExplicit(instance, _componentType, injectArgs);
+
+                Assert.That(injectArgs.ExtraArgs.IsEmpty());
             }
             finally
             {

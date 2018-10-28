@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Game;
+﻿using Game;
+using UnityEngine;
 
 public class CharacterPersonalityData
 {

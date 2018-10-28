@@ -143,7 +143,7 @@ namespace ModestTree
 #if UNITY_WSA && ENABLE_DOTNET && !UNITY_EDITOR
             return type.GetTypeInfo().IsGenericTypeDefinition;
 #else
-            return type.IsGenericTypeDefinition;
+            return type.IsGenericType;
 #endif
         }
 
@@ -383,7 +383,7 @@ namespace ModestTree
         public static IEnumerable<Attribute> AllAttributes(
             this MemberInfo provider, params Type[] attributeTypes)
         {
-            var allAttributes = System.Attribute.GetCustomAttributes(provider, typeof(Attribute), true);
+            var allAttributes = provider.GetCustomAttributes(true).Cast<Attribute>();
 
             if (attributeTypes.Length == 0)
             {
@@ -417,7 +417,7 @@ namespace ModestTree
         public static IEnumerable<Attribute> AllAttributes(
             this ParameterInfo provider, params Type[] attributeTypes)
         {
-            var allAttributes = System.Attribute.GetCustomAttributes(provider, typeof(Attribute), true);
+            var allAttributes = provider.GetCustomAttributes(true).Cast<Attribute>();
 
             if (attributeTypes.Length == 0)
             {

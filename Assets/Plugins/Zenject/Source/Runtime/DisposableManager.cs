@@ -33,6 +33,8 @@ namespace Zenject
                 _disposables.Add(new DisposableInfo(disposable, priority));
             }
 
+            Log.Debug("Loaded {0} IDisposables to DisposablesHandler", _disposables.Count());
+
             foreach (var lateDisposable in lateDisposables)
             {
                 var matches = latePriorities.Where(x => lateDisposable.GetType().DerivesFromOrEqual(x.First)).Select(x => x.Second).ToList();
@@ -40,6 +42,8 @@ namespace Zenject
 
                 _lateDisposables.Add(new LateDisposableInfo(lateDisposable, priority));
             }
+
+            Log.Debug("Loaded {0} ILateDisposables to DisposablesHandler", _lateDisposables.Count());
         }
 
         public void Add(IDisposable disposable)
@@ -76,6 +80,8 @@ namespace Zenject
 
             foreach (var disposable in disposablesOrdered)
             {
+                Log.Debug("Late Disposing '" + disposable.LateDisposable.GetType() + "'");
+
                 try
                 {
                     disposable.LateDisposable.LateDispose();
@@ -86,6 +92,8 @@ namespace Zenject
                         e, "Error occurred while late disposing ILateDisposable with type '{0}'", disposable.LateDisposable.GetType());
                 }
             }
+
+            Log.Debug("Late Disposed of {0} disposables in DisposablesHandler", disposablesOrdered.Count());
         }
 
         public void Dispose()
@@ -105,6 +113,8 @@ namespace Zenject
 
             foreach (var disposable in disposablesOrdered)
             {
+                Log.Debug("Disposing '" + disposable.Disposable.GetType() + "'");
+
                 try
                 {
                     disposable.Disposable.Dispose();
@@ -115,6 +125,8 @@ namespace Zenject
                         e, "Error occurred while disposing IDisposable with type '{0}'", disposable.Disposable.GetType());
                 }
             }
+
+            Log.Debug("Disposed of {0} disposables in DisposablesHandler", disposablesOrdered.Count());
         }
 
         class DisposableInfo

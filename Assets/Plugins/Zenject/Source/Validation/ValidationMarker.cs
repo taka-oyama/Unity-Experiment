@@ -4,22 +4,9 @@ namespace Zenject
 {
     public class ValidationMarker
     {
-        public ValidationMarker(
-            Type markedType, bool instantiateFailed)
+        public ValidationMarker(Type markedType)
         {
             MarkedType = markedType;
-            InstantiateFailed = instantiateFailed;
-        }
-
-        public ValidationMarker(Type markedType)
-            : this(markedType, false)
-        {
-        }
-
-        public bool InstantiateFailed
-        {
-            get;
-            private set;
         }
 
         public Type MarkedType

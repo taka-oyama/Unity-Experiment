@@ -40,9 +40,7 @@ namespace Zenject
 
         public void RemoveTask(TTask task)
         {
-            var info = AllTasks.Where(x => ReferenceEquals(x.Task, task)).SingleOrDefault();
-
-            Assert.IsNotNull(info, "Tried to remove a task not added to DependencyRoot, task = " + task.GetType().Name);
+            var info = AllTasks.Where(x => ReferenceEquals(x.Task, task)).Single();
 
             Assert.That(!info.IsRemoved, "Tried to remove task twice, task = " + task.GetType().Name);
             info.IsRemoved = true;
@@ -92,6 +90,7 @@ namespace Zenject
 
                 if (info.IsRemoved)
                 {
+                    //Log.Debug("Removed task '" + info.Task.GetType().ToString() + "'");
                     tasks.Remove(node);
                 }
 

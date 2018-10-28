@@ -7,6 +7,11 @@ namespace Zenject
 {
     public class TickableManager
     {
+        // Make this lazy just as bit of extra assurance that we don't trigger circular dependencies
+        // accidentally
+        [Inject(Optional = true, Source = InjectSources.Parent)]
+        readonly Lazy<List<TickableManager>> _parents = null;
+
         [Inject(Optional = true, Source = InjectSources.Local)]
         readonly List<ITickable> _tickables = null;
 
@@ -43,8 +48,26 @@ namespace Zenject
 
         public bool IsPaused
         {
-            get { return _isPaused; }
-            set { _isPaused = value; }
+            get
+            {
+                if (_isPaused)
+                {
+                    return true;
+                }
+
+                if (_parents.Value != null)
+                {
+                    for (int i = 0; i < _parents.Value.Count; i++)
+                    {
+                        if (_parents.Value[i].IsPaused)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                return false;
+            }
         }
 
         [Inject]
@@ -159,7 +182,7 @@ namespace Zenject
 
         public void Update()
         {
-            if(_isPaused)
+            if(IsPaused)
             {
                 return;
             }
@@ -170,7 +193,7 @@ namespace Zenject
 
         public void FixedUpdate()
         {
-            if(_isPaused)
+            if(IsPaused)
             {
                 return;
             }
@@ -181,13 +204,23 @@ namespace Zenject
 
         public void LateUpdate()
         {
-            if(_isPaused)
+            if(IsPaused)
             {
                 return;
             }
 
             _lateUpdater.OnFrameStart();
             _lateUpdater.UpdateAll();
+        }
+
+        public void Pause()
+        {
+            _isPaused = true;
+        }
+
+        public void Resume()
+        {
+            _isPaused = false;
         }
     }
 }

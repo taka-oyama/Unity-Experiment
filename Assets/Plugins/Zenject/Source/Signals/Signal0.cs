@@ -28,7 +28,7 @@ namespace Zenject
         readonly List<Action> _tempListeners = new List<Action>();
 
 #if ZEN_SIGNALS_ADD_UNIRX
-        public IObservable<Unit> AsObservable
+        public UniRx.IObservable<Unit> AsObservable
         {
             get
             {
